@@ -5,7 +5,9 @@ const cors = require('cors');
 const db = require('./db');
 
 const app = express();
-const PORT = 3000; // Porta do seu servidor
+
+// CORREÇÃO CRÍTICA: Usa process.env.PORT fornecida pelo Render, ou 3000 como fallback local
+const port = process.env.PORT || 3000; 
 
 // Middlewares
 app.use(cors()); // Permite requisições do seu app React Native
@@ -15,7 +17,7 @@ app.use(express.json()); // Habilita o Express a ler o corpo das requisições e
 
 // Rota de teste
 app.get('/', (req, res) => {
-    res.send('Servidor de Mídia Rodando!');
+    res.send('Servidor de Mídia Rodando! Bem-vindo ao Ivanovi Media API.');
 });
 
 // Rota para LISTAR todas as mídias (READ)
@@ -72,9 +74,9 @@ app.delete('/api/midias/:id', async (req, res) => {
 // Inicializa o banco de dados e depois inicia o servidor
 db.initDB()
     .then(() => {
-        app.listen(PORT, () => {
-            console.log(`🚀 Servidor Express rodando na porta ${PORT}`);
-            console.log(`Acesse: http://localhost:${PORT}`);
+        app.listen(port, () => {
+            console.log(`🚀 Servidor Express rodando na porta ${port}`);
+            console.log(`Acesse: http://localhost:${port}`);
         });
     })
     .catch(err => {
